@@ -78,6 +78,10 @@ extern struct vfsmount *susfs_get_non_sus_vfsmnt_from_vfsmnt(struct vfsmount *vf
 extern int susfs_open_redirect_spoof_vfs_statfs(struct inode *inode, struct kstatfs *buf);
 #endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
 
+
+#ifdef CONFIG_NOMOUNT
+extern void nomount_spoof_statfs(const struct path *path, struct kstatfs *buf);
+#endif
 int vfs_statfs(const struct path *path, struct kstatfs *buf)
 {
 	int error;
@@ -118,6 +122,9 @@ orig_flow:
 	error = statfs_by_dentry(path->dentry, buf);
 	if (!error)
 		buf->f_flags = calculate_f_flags(path->mnt);
+#ifdef CONFIG_NOMOUNT
+	nomount_spoof_statfs(path, buf);
+#endif
 	return error;
 }
 EXPORT_SYMBOL(vfs_statfs);
