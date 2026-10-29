@@ -95,15 +95,15 @@ echo "TARGET_DEVICE: $TARGET_DEVICE"
 
 if [ $KSU_ENABLE -eq 1 ]; then
     echo "KSU is enabled"
-    curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
+    curl -LSs "https://raw.githubusercontent.com/Baka-SU/BakaSU/5b76b884c75f729a220bb317aa4a4fc78f0e0e9c/kernel/setup.sh" | bash
+    if [ -f "KernelSU/kernel/tools/susfs_compat.mk" ]; then
+        sed -i '/Please wait susfs update/d' KernelSU/kernel/tools/susfs_compat.mk || true
+    fi
 else
     echo "KSU is disabled"
 fi
 
-echo "Integrating Baseband-guard..."
-curl -LSs "https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh" | bash
-sed -i '/^config LSM$/,/^help$/{ /^[[:space:]]*default/ { /baseband_guard/! s/selinux/selinux,baseband_guard/ } }' security/Kconfig
-
+echo "Baseband-guard is already integrated in-tree."
 
 echo "Cleaning..."
 
@@ -141,6 +141,13 @@ fi
 scripts/config --file out/.config \
     -e CONFIG_REKERNEL \
     -e CONFIG_REKERNEL_NETWORK \
+    -e NOMOUNT \
+    -e BBG \
+    -e TCP_CONG_BBR \
+    --set-str DEFAULT_TCP_CONG bbr \
+    -e NET_SCH_FQ \
+    -e ZRAM \
+    -e CRYPTO_LZ4
 
 make $MAKE_ARGS -j$(nproc)
 
@@ -307,7 +314,14 @@ scripts/config --file out/.config \
     -e MI_RECLAIM \
     -e RTMM \
     -d REKERNEL \
-    -d REKERNEL_NETWORK
+    -d REKERNEL_NETWORK \
+    -e NOMOUNT \
+    -e BBG \
+    -e TCP_CONG_BBR \
+    --set-str DEFAULT_TCP_CONG bbr \
+    -e NET_SCH_FQ \
+    -e ZRAM \
+    -e CRYPTO_LZ4
 
 make $MAKE_ARGS -j$(nproc)
 
