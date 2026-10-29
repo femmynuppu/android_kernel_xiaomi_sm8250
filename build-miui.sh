@@ -244,6 +244,8 @@ scripts/config --file out/.config \
     -e ZRAM \
     -e CRYPTO_LZ4
 
+make $MAKE_ARGS archheaders
+make $MAKE_ARGS prepare
 make $MAKE_ARGS -j$(nproc)
 
 

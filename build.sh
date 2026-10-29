@@ -200,6 +200,7 @@ cd ..
 
 
 echo "Build for AOSP finished."
+exit 0
 
 # ------------- End of Building for AOSP -------------
 #  If you don't need AOSP you can comment out the above block [Building for AOSP]
