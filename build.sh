@@ -99,6 +99,12 @@ if [ $KSU_ENABLE -eq 1 ]; then
     if [ -f "KernelSU/kernel/tools/susfs_compat.mk" ]; then
         sed -i '/Please wait susfs update/d' KernelSU/kernel/tools/susfs_compat.mk || true
     fi
+    if [ -f "KernelSU/kernel/tools/inline_hook_check.mk" ]; then
+        echo "# neutralized" > KernelSU/kernel/tools/inline_hook_check.mk
+    fi
+    if [ -f "KernelSU/kernel/Kbuild" ]; then
+        sed -i '/inline_hook_check.mk/d' KernelSU/kernel/Kbuild || true
+    fi
 else
     echo "KSU is disabled"
 fi
