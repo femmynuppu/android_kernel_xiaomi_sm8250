@@ -8,6 +8,7 @@
 #include <linux/path.h>
 #include <linux/susfs_def.h>
 #include <linux/statfs.h>
+#include <linux/jump_label.h>
 
 #define SUSFS_VERSION "v2.3.0"
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5,0,0)
@@ -229,6 +230,7 @@ void susfs_add_open_redirect(void __user **user_info);
 void susfs_add_sus_map(void __user **user_info);
 #endif
 
+extern struct static_key_false susfs_is_avc_log_spoofing_enabled;
 void susfs_set_avc_log_spoofing(void __user **user_info);
 
 void susfs_get_enabled_features(void __user **user_info);
