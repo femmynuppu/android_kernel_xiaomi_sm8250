@@ -794,6 +794,7 @@ CONFIG_NET_SCH_FQ=y
 # NoMount & Security
 CONFIG_NOMOUNT=y
 CONFIG_BBG=y
+CONFIG_LSM="lockdown,yama,loadpin,safesetid,integrity,selinux,baseband_guard,smack,tomoyo,apparmor,bpf"
 
 # ZRAM Optimization
 CONFIG_ZRAM=y

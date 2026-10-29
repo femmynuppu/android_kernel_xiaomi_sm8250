@@ -143,6 +143,7 @@ scripts/config --file out/.config \
     -e CONFIG_REKERNEL_NETWORK \
     -e NOMOUNT \
     -e BBG \
+    --set-str LSM "lockdown,yama,loadpin,safesetid,integrity,selinux,baseband_guard,smack,tomoyo,apparmor,bpf" \
     -e TCP_CONG_BBR \
     --set-str DEFAULT_TCP_CONG bbr \
     -e NET_SCH_FQ \
@@ -317,6 +318,7 @@ scripts/config --file out/.config \
     -d REKERNEL_NETWORK \
     -e NOMOUNT \
     -e BBG \
+    --set-str LSM "lockdown,yama,loadpin,safesetid,integrity,selinux,baseband_guard,smack,tomoyo,apparmor,bpf" \
     -e TCP_CONG_BBR \
     --set-str DEFAULT_TCP_CONG bbr \
     -e NET_SCH_FQ \
